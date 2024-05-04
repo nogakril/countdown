@@ -1,0 +1,5 @@
+# created by virtualenv automatically
+*.idea/
+
+# Ignore pipenv virtual environment
+/.venv/
