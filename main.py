@@ -1,5 +1,10 @@
+import sys
+
+from PyQt5.QtWidgets import QApplication
 from flask import Flask, request, send_file
 from flask_cors import CORS
+
+from MainWindow import MainWindow
 
 app = Flask(__name__)
 CORS(app)
@@ -29,4 +34,11 @@ def start_new_countdown():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # app.run(debug=True)
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    window.dot_grid.draw_digits()
+
+    window.dot_grid.draw_letters()
+    sys.exit(app.exec_())
