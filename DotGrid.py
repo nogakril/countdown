@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtGui import QPainter, QColor
 
-GREY = QColor(100, 100, 100)
+GREY = QColor(34,34,34)
 RED = QColor(255, 0, 0)
 
 
@@ -14,14 +14,14 @@ class DotGrid(QWidget):
         self.rows = 0
         self.cols = 0
         self.display_parameters = {
-            'start_col': 5,
+            'start_col': 10,
             'first_row': 3,
             'second_row': 31,
             'width': 8,
             'height': 16,
             'gap': 2,
             'space': 10,
-            'letter_space': 3,
+            'letter_space': 2,
             'letter_gap': 1,
             'letter_width': 4,
         }
@@ -138,7 +138,6 @@ class DotGrid(QWidget):
         painter.setBrush(GREY)  # Default grey color
         self.rows = (self.height() - self.dot_size) // self.spacing + 1
         self.cols = (self.width() - self.dot_size) // self.spacing + 1
-        print(self.rows, self.cols)
         start_x = (self.width() - (self.cols - 1) * self.spacing) // 2
         start_y = (self.height() - (self.rows - 1) * self.spacing) // 2
         for row in range(self.rows):
@@ -185,25 +184,12 @@ class DotGrid(QWidget):
 
         self.update()
 
-    def paint_number_eight(self, width):
-        # Calculate the base row and column to paint the number 8
-        base_row = (self.rows - 4) // 2
-        base_col = (self.cols - 3 - width) // 2
-        self.display_digit(base_row, base_col, 8)
-
     def mousePressEvent(self, event):
         col = (event.x() - (self.width() - ((self.cols - 1) * self.spacing)) // 2) // self.spacing
         row = (event.y() - (self.height() - ((self.rows - 1) * self.spacing)) // 2) // self.spacing
         if 0 <= row < self.rows and 0 <= col < self.cols:
             self.change_dot_color(row, col)
             self.update()
-
-    def change_dot_color(self, row, col):
-        current_color = self.dots.get((row, col), GREY)
-        # if current_color == RED:
-        #     self.dots[(row, col)] = GREY
-        # else:
-        self.dots[(row, col)] = RED
 
     def draw_digits(self):
         params = self.display_parameters
@@ -235,7 +221,7 @@ class DotGrid(QWidget):
         letter_width = params['width']
 
         for label, col_offset in labels_row_1.items():
-            base_col = start_col + col_offset * (letter_width + letter_gap) + (col_offset // 2) * params['letter_space']
+            base_col = start_col + col_offset * (letter_width) + (col_offset // 2) * params['letter_space']
             self.draw_word(label, start_row_1, base_col)
 
         # Second Row Labels
@@ -247,7 +233,7 @@ class DotGrid(QWidget):
         start_row_2 = params['second_row'] + params['height'] + params['letter_space'] + 1
 
         for label, col_offset in labels_row_2.items():
-            base_col = start_col + col_offset * (letter_width + letter_gap) + (col_offset // 2) * params['letter_space']
+            base_col = start_col + col_offset * (letter_width) + (col_offset // 2) * params['letter_space']
             self.draw_word(label, start_row_2, base_col)
 
     def draw_word(self, word, base_row, base_col):
@@ -258,3 +244,51 @@ class DotGrid(QWidget):
         for index, letter in enumerate(word):
             letter_col = base_col + index * (letter_width + letter_gap)
             self.draw_letter(letter, base_row, letter_col)
+
+    def update_digits(self, years, months, days, hours, minutes, seconds):
+        params = self.display_parameters
+        start_col = params['start_col']
+        width = params['width']
+        height = params['height']
+        gap = params['gap']
+        space = params['space']
+
+        self.clear_digits()
+
+
+        # Clear and update days digits
+        self.display_digit(params['first_row'], start_col, height, width, days // 10)
+        self.display_digit(params['first_row'], start_col + width + gap, height, width, days % 10)
+
+        # Clear and update months digits
+        base_col = start_col + (2 * width) + gap + space
+        self.display_digit(params['first_row'], base_col, height, width, months // 10)
+        self.display_digit(params['first_row'], base_col + width + gap, height, width, months % 10)
+
+        # Clear and update years digits
+        base_col = start_col + (4 * width) + (2 * gap) + (2 * space)
+        self.display_digit(params['first_row'], base_col, height, width, years // 10)
+        self.display_digit(params['first_row'], base_col + width + gap, height, width, years % 10)
+
+        # Clear and update hours digits
+        self.display_digit(params['second_row'], start_col, height, width, hours // 10)
+        self.display_digit(params['second_row'], start_col + width + gap, height, width, hours % 10)
+
+        # Clear and update minutes digits
+        base_col = start_col + (2 * width) + gap + space
+        self.display_digit(params['second_row'], base_col, height, width, minutes // 10)
+        self.display_digit(params['second_row'], base_col + width + gap, height, width, minutes % 10)
+
+        # Clear and update seconds digits
+        base_col = start_col + (4 * width) + (2 * gap) + (2 * space)
+        self.display_digit(params['second_row'], base_col, height, width, seconds // 10)
+        self.display_digit(params['second_row'], base_col + width + gap, height, width, seconds % 10)
+
+        self.draw_letters()
+        self.update()
+
+    def clear_digits(self):
+        self.dots = {}
+
+    def change_dot_color(self, row, col, color=RED):
+        self.dots[(row, col)] = color

@@ -68,10 +68,11 @@ class Counter:
             self.months = 11
             self.years -= 1
 
-    def countdown(self):
+    def countdown(self, display):
         while True:
-            print(
-                f"{self.years} years {self.months} months {self.days} days {self.hours} hours {self.minutes} minutes {self.seconds} seconds")
+            display.update_digits(self.years, self.months, self.days, self.hours, self.minutes, self.seconds)
+            # print( f"{self.years} years {self.months} months {self.days} days {self.hours} hours {self.minutes}
+            # minutes {self.seconds} seconds")
             self.decrement_counter()
             time.sleep(1)
 
