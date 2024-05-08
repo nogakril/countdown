@@ -4,12 +4,12 @@ import time
 
 class Counter:
     def __init__(self):
-        self.years = 0
-        self.months = 0
-        self.days = 0
-        self.hours = 0
-        self.minutes = 0
-        self.seconds = 0
+        self.years = 88
+        self.months = 88
+        self.days = 88
+        self.hours = 88
+        self.minutes = 88
+        self.seconds = 88
         self.isInfinite = False
 
     def reset_counter(self):
@@ -68,15 +68,7 @@ class Counter:
             self.months = 11
             self.years -= 1
 
-    def countdown(self, display):
-        while True:
-            display.update_digits(self.years, self.months, self.days, self.hours, self.minutes, self.seconds)
-            # print( f"{self.years} years {self.months} months {self.days} days {self.hours} hours {self.minutes}
-            # minutes {self.seconds} seconds")
-            self.decrement_counter()
-            time.sleep(1)
-
-    def set_random_counter(self, time_frame):
+    def set_random_counter(self, time_frame, max):
         self.reset_counter()
 
         time_units = {
@@ -91,8 +83,11 @@ class Counter:
         found = False
         for unit, upper_limit in time_units.items():
             if time_frame == unit or found:
-                setattr(self, unit, random.randint(0, upper_limit - 1))
-                found = True
+                if time_frame == unit:
+                    setattr(self, unit, random.randint(0, min(max, upper_limit - 1)))
+                    found = True
+                else:
+                    setattr(self, unit, random.randint(0, upper_limit - 1))
 
 
 

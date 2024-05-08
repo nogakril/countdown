@@ -10,13 +10,13 @@ class DotGrid(QWidget):
         super().__init__()
         self.dots = {}
         self.dot_size = 8
-        self.spacing = 16  # Space between centers of dots
+        self.spacing = 15  # Space between centers of dots
         self.rows = 0
         self.cols = 0
         self.display_parameters = {
             'start_col': 10,
-            'first_row': 3,
-            'second_row': 31,
+            'first_row': 1,
+            'second_row': 28,
             'width': 8,
             'height': 16,
             'gap': 2,
@@ -106,23 +106,23 @@ class DotGrid(QWidget):
         # Digit positions mapping
         self.digit_positions = [
             # Days
-            {'row': 'first_row', 'col_offset': 0, 'digit': 1},
-            {'row': 'first_row', 'col_offset': 1, 'digit': 2},
+            {'row': 'first_row', 'col_offset': 0, 'digit': 8},
+            {'row': 'first_row', 'col_offset': 1, 'digit': 8},
             # Months
-            {'row': 'first_row', 'col_offset': 2, 'digit': 2},
-            {'row': 'first_row', 'col_offset': 3, 'digit': 3},
+            {'row': 'first_row', 'col_offset': 2, 'digit': 8},
+            {'row': 'first_row', 'col_offset': 3, 'digit': 8},
             # Years
-            {'row': 'first_row', 'col_offset': 4, 'digit': 3},
-            {'row': 'first_row', 'col_offset': 5, 'digit': 3},
+            {'row': 'first_row', 'col_offset': 4, 'digit': 8},
+            {'row': 'first_row', 'col_offset': 5, 'digit': 8},
             # Hours
-            {'row': 'second_row', 'col_offset': 0, 'digit': 1},
-            {'row': 'second_row', 'col_offset': 1, 'digit': 2},
+            {'row': 'second_row', 'col_offset': 0, 'digit': 8},
+            {'row': 'second_row', 'col_offset': 1, 'digit': 8},
             # Minutes
-            {'row': 'second_row', 'col_offset': 2, 'digit': 2},
-            {'row': 'second_row', 'col_offset': 3, 'digit': 3},
+            {'row': 'second_row', 'col_offset': 2, 'digit': 8},
+            {'row': 'second_row', 'col_offset': 3, 'digit': 8},
             # Seconds
-            {'row': 'second_row', 'col_offset': 4, 'digit': 3},
-            {'row': 'second_row', 'col_offset': 5, 'digit': 3}
+            {'row': 'second_row', 'col_offset': 4, 'digit': 8},
+            {'row': 'second_row', 'col_offset': 5, 'digit': 8}
         ]
 
     def draw_letter(self, letter, base_row=None, base_col=None):

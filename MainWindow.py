@@ -17,20 +17,12 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.dot_grid)
 
         self.counter = Counter()
-        self.counter.set_counter(2, 3, 15, 23, 59, 55)
+        self.counter.set_counter(88, 88, 88, 88, 88, 88)
 
         self.counter_thread = CounterThread(self.counter)
         self.counter_thread.update_signal.connect(self.dot_grid.update_digits)
-        self.counter_thread.start()
-
 
     def closeEvent(self, event):
         self.counter_thread.stop()
         self.counter_thread.wait()
         event.accept()
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec_())

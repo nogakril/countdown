@@ -1,5 +1,6 @@
 from PyQt5.QtCore import QThread, pyqtSignal
 
+
 class CounterThread(QThread):
     update_signal = pyqtSignal(int, int, int, int, int, int)
 

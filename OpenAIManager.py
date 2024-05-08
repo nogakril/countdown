@@ -1,8 +1,5 @@
 import json
-from typing import Union
-
 from openai import OpenAI, Stream
-from openai.types.chat import ChatCompletion, ChatCompletionChunk
 
 OPENAI_API_KEY = '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'
 
@@ -15,10 +12,13 @@ class OpenAIManager:
             "Authorization": f'Bearer {self.api_key}',
         }
 
-    def generate_completion_request(self, question) -> [str, bool]:
+    def generate_completion_request(self, question, json_data) -> [str, bool]:
         message = (f"First, Let's say I have a question: {question}? "
                    f"Answer which time frame makes the most sense: years/months/days/hours/seconds?"
                    f"Result should be the first item in the response json with key 'time'. "
+                   f"Here is the info on the person asked the question: {json_data}. Based on this info, what is the "
+                   f"most reasonable number you can give for that time frame?"
+                   f"the answer should be in the response json with key ‘max’."
                    f"Second, is there a statistical chance that the answer to the question will be never? "
                    f"If so return True else False. "
                    f"For example, if the question is 'When will I get married?' the answer could be 'never'."
@@ -38,4 +38,4 @@ class OpenAIManager:
             print("Caught an exception:", e)
             completion = ""
         response_json = json.loads(completion.choices[0].message.content)
-        return response_json.get("time"), response_json.get("never")
+        return response_json.get("time"), response_json.get("never"), response_json.get("max")
