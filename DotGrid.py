@@ -191,21 +191,6 @@ class DotGrid(QWidget):
             self.change_dot_color(row, col)
             self.update()
 
-    def draw_digits(self):
-        params = self.display_parameters
-        start_col = params['start_col']
-        width = params['width']
-        height = params['height']
-        gap = params['gap']
-        space = params['space']
-
-        for pos in self.digit_positions:
-            row = params[pos['row']]
-            col_offset = pos['col_offset']
-            # Calculate column position based on offset and gaps/spaces
-            base_col = start_col + col_offset * (width + gap) + (col_offset // 2) * space
-            self.display_digit(row, base_col, height, width, pos['digit'])
-
     def draw_letters(self):
         params = self.display_parameters
         start_col = params['start_col']
@@ -216,11 +201,11 @@ class DotGrid(QWidget):
         # Base columns for each label aligned with the digits
         base_columns = {
             "YRS": start_col,
-            "MOS": start_col + (2 * width) + (2 * gap) + space,
-            "DAYS": start_col + (4 * width) + (4 * gap) + (2 * space),
+            "MOS": start_col + (2 * width) + gap + space,
+            "DAYS": start_col + (4 * width) + (2 * gap) + (2 * space),
             "HRS": start_col,
-            "MINS": start_col + (2 * width) +(2 * gap) + space,
-            "SECS": start_col + (4 * width) + (4 * gap) + (2 * space)
+            "MINS": start_col + (2 * width) + gap + space,
+            "SECS": start_col + (4 * width) + (2 * gap) + (2 * space)
         }
 
         # First Row Labels
