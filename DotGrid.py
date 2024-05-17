@@ -9,14 +9,14 @@ class DotGrid(QWidget):
     def __init__(self):
         super().__init__()
         self.dots = {}
-        self.dot_size = 8
-        self.spacing = 15  # Space between centers of dots
+        self.dot_size = 14
+        self.spacing = 17  # Space between centers of dots
         self.rows = 0
         self.cols = 0
         self.display_parameters = {
-            'start_col': 10,
+            'start_col': 5,
             'first_row': 1,
-            'second_row': 28,
+            'second_row': 30,
             'width': 8,
             'height': 16,
             'gap': 2,
@@ -208,33 +208,32 @@ class DotGrid(QWidget):
 
     def draw_letters(self):
         params = self.display_parameters
+        start_col = params['start_col']
+        width = params['width']
+        gap = params['gap']
+        space = params['space']
+
+        # Base columns for each label aligned with the digits
+        base_columns = {
+            "YRS": start_col,
+            "MOS": start_col + (2 * width) + (2 * gap) + space,
+            "DAYS": start_col + (4 * width) + (4 * gap) + (2 * space),
+            "HRS": start_col,
+            "MINS": start_col + (2 * width) +(2 * gap) + space,
+            "SECS": start_col + (4 * width) + (4 * gap) + (2 * space)
+        }
 
         # First Row Labels
-        labels_row_1 = {
-            "DAYS": 0,
-            "MOS": 3,
-            "YRS": 6
-        }
         start_row_1 = params['first_row'] + params['height'] + params['letter_space'] + 1
-        start_col = params['start_col']
-        letter_gap = params['letter_gap']
-        letter_width = params['width']
-
-        for label, col_offset in labels_row_1.items():
-            base_col = start_col + col_offset * (letter_width) + (col_offset // 2) * params['letter_space']
-            self.draw_word(label, start_row_1, base_col)
+        for label, base_col in base_columns.items():
+            if label in ["YRS", "MOS", "DAYS"]:
+                self.draw_word(label, start_row_1, base_col)
 
         # Second Row Labels
-        labels_row_2 = {
-            "HRS": 0,
-            "MINS": 3,
-            "SECS": 6
-        }
         start_row_2 = params['second_row'] + params['height'] + params['letter_space'] + 1
-
-        for label, col_offset in labels_row_2.items():
-            base_col = start_col + col_offset * (letter_width) + (col_offset // 2) * params['letter_space']
-            self.draw_word(label, start_row_2, base_col)
+        for label, base_col in base_columns.items():
+            if label in ["HRS", "MINS", "SECS"]:
+                self.draw_word(label, start_row_2, base_col)
 
     def draw_word(self, word, base_row, base_col):
         params = self.display_parameters
@@ -255,20 +254,19 @@ class DotGrid(QWidget):
 
         self.clear_digits()
 
-
-        # Clear and update days digits
-        self.display_digit(params['first_row'], start_col, height, width, days // 10)
-        self.display_digit(params['first_row'], start_col + width + gap, height, width, days % 10)
+        # Clear and update years digits
+        self.display_digit(params['first_row'], start_col, height, width, years // 10)
+        self.display_digit(params['first_row'], start_col + width + gap, height, width, years % 10)
 
         # Clear and update months digits
         base_col = start_col + (2 * width) + gap + space
         self.display_digit(params['first_row'], base_col, height, width, months // 10)
         self.display_digit(params['first_row'], base_col + width + gap, height, width, months % 10)
 
-        # Clear and update years digits
+        # Clear and update days digits
         base_col = start_col + (4 * width) + (2 * gap) + (2 * space)
-        self.display_digit(params['first_row'], base_col, height, width, years // 10)
-        self.display_digit(params['first_row'], base_col + width + gap, height, width, years % 10)
+        self.display_digit(params['first_row'], base_col, height, width, days // 10)
+        self.display_digit(params['first_row'], base_col + width + gap, height, width, days % 10)
 
         # Clear and update hours digits
         self.display_digit(params['second_row'], start_col, height, width, hours // 10)
