@@ -1,6 +1,11 @@
 # Countdown App (Python + GUI + OpenAI)
 
-A desktop countdown timer with a graphical interface and optional AI-enhanced controls, developed in Python.
+Countdown is an interactive installation that allows participants to ask a digital "Oracle" specific "When" question about their futures. In response, the Oracle predicts the date of the event in question and initiates a countdown. The time calculation is a combination of randomness and AI analysis based on the user details provided. This project prompts us to contemplate the unpredictable nature of life and the reliability of AI algorithms.
+
+Main components:
+- A desktop countdown timer with a graphical interface and optional AI-enhanced controls, developed in Python.
+- Android app
+- Vercel server
 
 ---
 
@@ -37,4 +42,8 @@ python main.py
 ##  Demo
 https://github.com/user-attachments/assets/7bccc46e-d9a0-4b62-a7f8-1ce04f6cacd5
 
+---
+
+##  Additional Photos
+<img src="https://github.com/user-attachments/assets/1aeaaad6-5b32-4068-b6a8-63cfb68b6eec" alt="YG-08576" width="300"/>
 
