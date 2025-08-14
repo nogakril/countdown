@@ -1,7 +1,7 @@
 import json
 from openai import OpenAI, Stream
 
-OPENAI_API_KEY = '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'
+OPENAI_API_KEY = 'key_here'
 
 
 class OpenAIManager:
